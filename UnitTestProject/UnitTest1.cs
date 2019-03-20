@@ -11,30 +11,14 @@
     [TestClass]
     public class UnitTest1
     {
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            //ConfigurationManager.AppSettings.Clear();
-        }
-
-        [TestMethod]
-        public void AnErrorShouldBeThrownWhenThereIsNoConfiguration()
-        {
-            IWriter writer = new Writer();
-
-            Assert.ThrowsException<ConfigurationErrorsException>(() => { writer.GenerateMessage(); });
-        }
-
         [TestMethod]
         public void ConsoleOutputShouldReturnCorrectMessage()
         {
-            ConfigurationManager.AppSettings["writerOutput"] = "console";
-
             using (StringWriter stringWriter = new StringWriter())
             {
                 Console.SetOut(stringWriter);
 
-                IWriter writer = new Writer();
+                IWriter writer = new ConsoleWriter();
                 writer.GenerateMessage();
 
                 Assert.AreEqual<string>($"Hello World{Environment.NewLine}", stringWriter.ToString());
@@ -42,11 +26,9 @@
         }
 
         [TestMethod]
-        public void AnErrorShouldBeThrownWhenUsingUnimplementedOutputs()
+        public void AnErrorShouldBeThrownWhenUsingDatabaseWriterBecauseItIsNotImpementedYet()
         {
-            ConfigurationManager.AppSettings["writerOutput"] = "dbase";
-
-            IWriter writer = new Writer();
+            IWriter writer = new DatabaseWriter();
 
             Assert.ThrowsException<NotImplementedException>(() => { writer.GenerateMessage(); });
         }

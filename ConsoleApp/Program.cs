@@ -6,7 +6,7 @@
     {
         static void Main(string[] args)
         {
-            IWriter writer = new Writer();
+            IWriter writer = new ConsoleWriter();
             writer.GenerateMessage();
         }
     }
